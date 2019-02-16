@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/jquery.dataTables.min.js" ></script>
+    <script language="javascript">
+
+        function updatecount(checkboxElem) {
+           // var table = $('#mytable').DataTable();;
+           //table.find('tr').on('click', 'input', function () {
+           //     var invite_id = table.api().row($(this).closest('tr')).data()[2];
+           //      alert(invite_id);
+
+            //  });
+            if (checkboxElem.checked) {
+                checkboxElem.val = 'P';
+                $(checkboxElem).closest('td').find('span').text("P");
+               
+            } else {
+                checkboxElem.val = 'P';
+                $(checkboxElem).closest('td').find('span').text("");
+            }
+            console.log($(checkboxElem).closest('tr').find('td:eq(0)').text());
+            var row = $(checkboxElem).closest('tr');
+            //if (row.find('input[type="checkbox"]').is(':checked')) {
+            //    alert('found');
+            //}
+            var count = 0;
+            for (var i = 0; i < 31; i++) {
+                try{
+                    //if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('input:checkbox:first').val() == 'P') {
+                    //    count++;
+                    //}
+                    if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
+                        count++;
+                    }
+                }catch(err){}
+            }
+            $(checkboxElem).closest('tr').find('td:eq(4)').html(count);
+            //$(checkboxElem).closest('tr').find('td:eq(2)').find('input:checkbox:first').text()
+        }
+    </script>
+</head>
+<body>
+    <table id="mytable" style="width:100%;" border="1">
+        <tr>
+            <td>1</td>
+            <td>
+                <input id="Checkbox1" type="checkbox"   value="A" onchange="updatecount(this)"/>
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
+                <span></span>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>
