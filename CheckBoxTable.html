@@ -4,7 +4,6 @@
     <title></title>
 	<meta charset="utf-8" />
     <script src="scripts/jquery-3.3.1.min.js"></script>
-    <script src="scripts/jquery.dataTables.min.js" ></script>
     <script language="javascript">
 
         // EXTRACT AND SUBMIT TABLE DATA.
@@ -66,17 +65,23 @@
         function updatecount(checkboxElem) {
             if (checkboxElem.checked) {
                 checkboxElem.val = 'P';
-                $(checkboxElem).closest('td').find('span').text("P");
+                //$(checkboxElem).closest('td').find('span').text("P");
+                checkboxElem.parentElement.children[1].innerText = "P";
                
             } else {
-                checkboxElem.val = 'P';
-                $(checkboxElem).closest('td').find('span').text("");
+                checkboxElem.val = 'A';
+                //$(checkboxElem).closest('td').find('span').text("");
+                checkboxElem.parentElement.children[1].innerText = "";
             }
+            console.log("JQuery method call...");
             console.log($(checkboxElem).closest('tr').find('td:eq(0)').text());
+            console.log("DOM method call...");
+            console.log(checkboxElem.parentElement.parentElement.children[0].innerText);
             var count = 0;
             for (var i = 0; i < 31; i++) {
                 try{
-                    if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
+                    //if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
+                    if (checkboxElem.parentElement.parentElement.children[i].children[1].innerText == "P") {
                         count++;
                     }
                 }catch(err){}
