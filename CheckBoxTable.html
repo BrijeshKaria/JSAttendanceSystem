@@ -7,13 +7,63 @@
     <script src="scripts/jquery.dataTables.min.js" ></script>
     <script language="javascript">
 
-        function updatecount(checkboxElem) {
-           // var table = $('#mytable').DataTable();;
-           //table.find('tr').on('click', 'input', function () {
-           //     var invite_id = table.api().row($(this).closest('tr')).data()[2];
-           //      alert(invite_id);
+        // EXTRACT AND SUBMIT TABLE DATA.
+        function submit() {
+            var myTab = document.getElementById('mytable');
+            var values = new Array();
 
-            //  });
+            // LOOP THROUGH EACH ROW OF THE TABLE.
+            for (row = 0; row < myTab.rows.length - 1; row++) {
+                for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+
+                    var element = myTab.rows.item(row).cells[c];
+                   // if (element.childNodes[0].getAttribute('type') == 'text') {
+                    values.push("'" + element.innerText + "'");
+                    //}
+                }
+            }
+            console.log(values);
+            localStorage.setItem('August', JSON.stringify(values));
+            var data = JSON.parse(localStorage.getItem('August'));
+            console.log(data);
+        }
+
+        function Loaddata() {
+            var data = JSON.parse(localStorage.getItem('August'));
+            console.log(data);
+
+            var myTab = document.getElementById('mytable');
+            //var values = new Array();
+            var i = 0;
+            // LOOP THROUGH EACH ROW OF THE TABLE.
+            for (row = 0; row < myTab.rows.length -1; row++) {
+                for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+
+                    var element = myTab.rows.item(row).cells[c];
+                    var chkbox = element.children[0];
+                    var span = element.children[1];
+                    if (chkbox == undefined || chkbox.type!='checkbox') {
+                        span = element.children[0];
+                        if (span == undefined) {
+
+                        } else {
+                            span.innerText = data[i];
+                        }
+                    }
+
+                    if (data[i].trim() == "' P'") {
+                        chkbox.checked = true;
+                        span.innerText = "P";
+                    }
+                    // if (element.childNodes[0].getAttribute('type') == 'text') {
+                    console.log(data[i]);
+                    i++;
+                    //}
+                }
+            }
+        }
+
+        function updatecount(checkboxElem) {
             if (checkboxElem.checked) {
                 checkboxElem.val = 'P';
                 $(checkboxElem).closest('td').find('span').text("P");
@@ -23,27 +73,19 @@
                 $(checkboxElem).closest('td').find('span').text("");
             }
             console.log($(checkboxElem).closest('tr').find('td:eq(0)').text());
-            var row = $(checkboxElem).closest('tr');
-            //if (row.find('input[type="checkbox"]').is(':checked')) {
-            //    alert('found');
-            //}
             var count = 0;
             for (var i = 0; i < 31; i++) {
                 try{
-                    //if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('input:checkbox:first').val() == 'P') {
-                    //    count++;
-                    //}
                     if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
                         count++;
                     }
                 }catch(err){}
             }
             $(checkboxElem).closest('tr').find('td:eq(4)').html(count);
-            //$(checkboxElem).closest('tr').find('td:eq(2)').find('input:checkbox:first').text()
         }
     </script>
 </head>
-<body>
+<body  onload="Loaddata()">
     <table id="mytable" style="width:100%;" border="1">
         <tr>
             <td>1</td>
@@ -59,7 +101,7 @@
                 <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
                 <span></span>
             </td>
-            <td></td>
+            <td><span></span></td>
         </tr>
         <tr>
             <td>2</td>
@@ -75,7 +117,7 @@
                 <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
                 <span></span>
             </td>
-            <td></td>
+            <td><span></span></td>
         </tr>
         <tr>
             <td>3</td>
@@ -91,7 +133,12 @@
                 <input id="Checkbox1" type="checkbox" value="A" onchange="updatecount(this)" />
                 <span></span>
             </td>
-            <td></td>
+            <td><span></span></td>
+        </tr>
+        <tr>
+            <td colspan="5" align="center">
+                <input type="button" id="bt" value="Submit Data" onclick="submit()"  />
+            </td>
         </tr>
     </table>
 </body>
