@@ -6,8 +6,8 @@ function submit() {
     var month = document.getElementById('monthval').innerText;
 
     // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 7; row < myTab.rows.length - 1; row++) {
-        for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+    for (row = 7; row < 38; row++) {
+        for (c = 0; c < 36; c++) {   // EACH CELL IN A ROW.
 
             var element = myTab.rows.item(row).cells[c];
             // if (element.childNodes[0].getAttribute('type') == 'text') {
@@ -32,8 +32,8 @@ function Loaddata() {
     //var values = new Array();
     var i = 0;
     // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 7; row < myTab.rows.length - 1; row++) {
-        for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+    for (row = 7; row < 38; row++) {
+        for (c = 0; c < 36; c++) {   // EACH CELL IN A ROW.
 
             var element = myTab.rows.item(row).cells[c];
             var chkbox = element.children[0];
@@ -41,7 +41,9 @@ function Loaddata() {
             if (chkbox == undefined || chkbox.type != 'checkbox') {
                 span = element.children[0];
                 if (span == undefined) {
-
+                    if (c == 34) {
+                        element.innerText = data[i];
+                    }
                 } else {
                     span.innerText = data[i];
                 }
