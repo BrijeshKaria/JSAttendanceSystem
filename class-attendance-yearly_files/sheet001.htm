@@ -22,6 +22,10 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-horizontal-page-align:center;}
 -->
 </style>
+
+    <script src="../scripts/jquery-3.3.1.min.js"></script>
+    <script src="../scripts/attendancesys.js"></script>
+
 <![if !supportTabStrip]><script language="JavaScript">
 <!--
 function fnUpdateTabs()
@@ -44,9 +48,9 @@ else
 <![endif]>
 </head>
 
-<body link=blue vlink="#969696">
+<body onload="LoadYTDdata()" link=blue vlink="#969696">
 
-<table border=0 cellpadding=0 cellspacing=0 width=872 style='border-collapse:
+<table id="tableytd" border=0 cellpadding=0 cellspacing=0 width=872 style='border-collapse:
  collapse;table-layout:fixed;width:655pt'>
  <col width=69 style='mso-width-source:userset;mso-width-alt:2523;width:52pt'>
  <col width=222 style='mso-width-source:userset;mso-width-alt:8118;width:167pt'>
@@ -134,7 +138,9 @@ else
   <td height=20 style='height:15.0pt'></td>
   <td class=xl86>A = Absent<span style='mso-spacerun:yes'>  </span>or P =
   Present</td>
-  <td></td>
+  <td>
+      <input type="button" id="bt" value="Submit Data" onclick="submitYTD()" />
+  </td>
   <td></td>
   <td></td>
   <td></td>

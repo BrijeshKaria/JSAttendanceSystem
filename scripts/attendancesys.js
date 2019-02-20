@@ -1,4 +1,32 @@
 ﻿
+function submitYTD() {
+    var myTab = document.getElementById('tableytd');
+    var values = new Array();
+
+    var teacherval = document.getElementById('teacherval').innerText;
+    var periodval = document.getElementById('periodval').innerText;
+    var courseval = document.getElementById('courseval').innerText;
+    var startyear = document.getElementById('startyear').innerText;
+    var endyear = document.getElementById('endyear').innerText;
+    var roomval = document.getElementById('roomval').innerText;
+
+    values.push(teacherval);
+    values.push(periodval);
+    values.push(courseval);
+    values.push(startyear);
+    values.push(endyear);
+    values.push(roomval);
+
+    // LOOP THROUGH EACH ROW OF THE TABLE.
+    for (row = 12; row < 43; row++) {
+        var element = myTab.rows.item(row).cells[1];
+        values.push("'" + element.innerText + "'");
+    }
+    console.log(values);
+    var key = 'ytd';//teacherval + periodval + courseval + startyear + roomval;
+    localStorage.setItem(key, JSON.stringify(values));
+}
+
 // EXTRACT AND SUBMIT TABLE DATA.
 function submit() {
     var myTab = document.getElementById('mytable');
@@ -19,6 +47,38 @@ function submit() {
     localStorage.setItem(month, JSON.stringify(values));
     var data = JSON.parse(localStorage.getItem(month));
     console.log(data);
+}
+
+
+function LoadYTDdata() {
+
+    var data = JSON.parse(localStorage.getItem('ytd'));
+    console.log(data);
+
+
+    var myTab = document.getElementById('tableytd');
+    //var values = new Array();
+    var teacherval = document.getElementById('teacherval');
+    var periodval = document.getElementById('periodval');
+    var courseval = document.getElementById('courseval');
+    var startyear = document.getElementById('startyear');
+    var endyear = document.getElementById('endyear');
+    var roomval = document.getElementById('roomval');
+
+
+    teacherval.innerText = data[0];
+    periodval.innerText = data[1];
+    courseval.innerText = data[2];
+    startyear.innerText = data[3];
+    endyear.innerText = data[4];
+    roomval.innerText = data[5];
+
+    var i = 0;
+    // LOOP THROUGH EACH ROW OF THE TABLE.
+    for (row = 12; row < 43; row++) {
+
+
+    }
 }
 
 function Loaddata() {
