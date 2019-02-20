@@ -73,11 +73,17 @@ function LoadYTDdata() {
     endyear.innerText = data[4];
     roomval.innerText = data[5];
 
-    var i = 0;
+    var i = 6;
     // LOOP THROUGH EACH ROW OF THE TABLE.
     for (row = 12; row < 43; row++) {
 
+        var element = myTab.rows.item(row).cells[1];
+        var editablediv = element.children[0];
+        if(editablediv != undefined){
+            editablediv.innerText = data[i];
 
+            }
+        i++;
     }
 }
 
