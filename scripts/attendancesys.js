@@ -31,8 +31,8 @@ function submitYTD() {
 function submit() {
     var myTab = document.getElementById('mytable');
     var values = new Array();
-    var month = document.getElementById('monthval').innerText;
-
+    var monthctrl = document.getElementById('monthval');
+    var month = monthctrl.innerText;
     // LOOP THROUGH EACH ROW OF THE TABLE.
     for (row = 7; row < 38; row++) {
         for (c = 0; c < 36; c++) {   // EACH CELL IN A ROW.

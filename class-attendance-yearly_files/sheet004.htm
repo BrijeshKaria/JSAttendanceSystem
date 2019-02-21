@@ -23,7 +23,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-horizontal-page-align:center;}
 -->
 
-span.palabel{
+     span.palabel{
     font-size:0.63em;
     color:white;
 }
@@ -55,9 +55,9 @@ else
 <![endif]>
 </head>
 
-<body link=blue vlink="#969696">
+<body  onload="Loaddata()" link=blue vlink="#969696">
 
-<table border=0 cellpadding=0 cellspacing=0 width=1063 style='border-collapse:
+<table id="mytable" border=0 cellpadding=0 cellspacing=0 width=1063 style='border-collapse:
  collapse;table-layout:fixed;width:792pt'>
  <col width=56 style='mso-width-source:userset;mso-width-alt:2048;width:42pt'>
  <col width=110 style='mso-width-source:userset;mso-width-alt:4022;width:83pt'>
@@ -88,7 +88,9 @@ else
   <td class=xl83 width=23 style='width:17pt'></td>
   <td class=xl83 width=23 style='width:17pt'></td>
   <td class=xl83 width=23 style='width:17pt'></td>
-  <td class=xl83 width=23 style='width:17pt'></td>
+  <td class=xl83 width=23 style='width:17pt'>
+      <input type="button" id="bt" value="Submit Data" onclick="submit()" />
+  </td>
   <td class=xl83 width=23 style='width:17pt'></td>
   <td class=xl83 width=23 style='width:17pt'></td>
   <td class=xl83 width=23 style='width:17pt'></td>
@@ -109,7 +111,7 @@ else
   <td class=xl67></td>
   <td class=xl67></td>
   <td colspan=3 class=xl132>Month</td>
-  <td colspan=6 class=xl137>June</td>
+  <td  id="monthval" colspan=6 class=xl137>June</td>
   <td></td>
   <td></td>
   <td></td>
