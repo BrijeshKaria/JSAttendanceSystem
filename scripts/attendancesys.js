@@ -143,8 +143,15 @@ function updatecount(checkboxElem) {
     console.log("DOM method call...");
     console.log(checkboxElem.parentElement.parentElement.children[0].innerText);
     var count = 0;
+    var validDayaCount = 0;
+    
     for (var i = 0; i < 31; i++) {
         try {
+            var chkbox = checkboxElem.parentElement.parentElement.children[i].children[0];
+            if (chkbox != undefined && chkbox.type == 'checkbox') {
+                validDayaCount++;
+                }
+
             //if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
             if (checkboxElem.parentElement.parentElement.children[i].children[1].innerText == "P") {
                 count++;
@@ -153,4 +160,8 @@ function updatecount(checkboxElem) {
     }
     //$(checkboxElem).closest('tr').find('td:eq(4)').html(count);
     checkboxElem.parentElement.parentElement.children[34].innerText = count;
+    checkboxElem.parentElement.parentElement.children[33].innerText = validDayaCount-count;
+
+    
+
 }
