@@ -1,16 +1,17 @@
 ﻿
 function submitYTD() {
-    var myTab = document.getElementById('tableytd');
+    var myTab = document.getElementById('mytable');
     var values = new Array();
 
     var teacherval = document.getElementById('teacherval').innerText;
+    values.push(teacherval);
     var periodval = document.getElementById('periodval').innerText;
     var courseval = document.getElementById('courseval').innerText;
     var startyear = document.getElementById('startyear').innerText;
     var endyear = document.getElementById('endyear').innerText;
     var roomval = document.getElementById('roomval').innerText;
 
-    values.push(teacherval);
+    //values.push(teacherval);
     values.push(periodval);
     values.push(courseval);
     values.push(startyear);
@@ -18,9 +19,9 @@ function submitYTD() {
     values.push(roomval);
 
     // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 12; row < 43; row++) {
+    for (row = 11; row < 43; row++) {
         var element = myTab.rows.item(row).cells[1];
-        values.push("'" + element.innerText + "'");
+        values.push(element.innerText);
     }
     console.log(values);
     var key = 'ytd';//teacherval + periodval + courseval + startyear + roomval;
@@ -39,7 +40,7 @@ function submit() {
 
             var element = myTab.rows.item(row).cells[c];
             // if (element.childNodes[0].getAttribute('type') == 'text') {
-            values.push("'" + element.innerText + "'");
+            values.push(element.innerText);
             //}
         }
     }
@@ -56,7 +57,7 @@ function LoadYTDdata() {
     console.log(data);
 
 
-    var myTab = document.getElementById('tableytd');
+    var myTab = document.getElementById('mytable');
     //var values = new Array();
     var teacherval = document.getElementById('teacherval');
     var periodval = document.getElementById('periodval');
@@ -75,7 +76,7 @@ function LoadYTDdata() {
 
     var i = 6;
     // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 12; row < 43; row++) {
+    for (row = 11; row < 43; row++) {
 
         var element = myTab.rows.item(row).cells[1];
         var editablediv = element.children[0];
@@ -88,6 +89,8 @@ function LoadYTDdata() {
 }
 
 function Loaddata() {
+
+    LoadYTDdata();
 
     var month = document.getElementById('monthval').innerText;
     var data = JSON.parse(localStorage.getItem(month));
@@ -107,7 +110,7 @@ function Loaddata() {
             if (chkbox == undefined || chkbox.type != 'checkbox') {
                 span = element.children[0];
                 if (span == undefined) {
-                    if (c == 34) {
+                    if (c == 34  || c==33) {
                         element.innerText = data[i];
                     }
                 } else {
@@ -115,7 +118,7 @@ function Loaddata() {
                 }
             }
 
-            if (data[i].trim() == "'P'") {
+            if (data[i].trim() == "P") {
                 chkbox.checked = true;
                 span.innerText = "P";
             }
@@ -145,12 +148,12 @@ function updatecount(checkboxElem) {
     var count = 0;
     var validDayaCount = 0;
     
-    for (var i = 0; i < 31; i++) {
+    for (var i = 2; i < 33; i++) {
         try {
             var chkbox = checkboxElem.parentElement.parentElement.children[i].children[0];
             if (chkbox != undefined && chkbox.type == 'checkbox') {
                 validDayaCount++;
-                }
+            }
 
             //if ($(checkboxElem).closest('tr').find('td:eq(' + i + ')').find('span').text() == 'P') {
             if (checkboxElem.parentElement.parentElement.children[i].children[1].innerText == "P") {
@@ -161,7 +164,4 @@ function updatecount(checkboxElem) {
     //$(checkboxElem).closest('tr').find('td:eq(4)').html(count);
     checkboxElem.parentElement.parentElement.children[34].innerText = count;
     checkboxElem.parentElement.parentElement.children[33].innerText = validDayaCount-count;
-
-    
-
 }
