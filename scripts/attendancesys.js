@@ -51,13 +51,34 @@ function submit() {
 }
 
 
-function LoadYTDdata() {
+function LoadYTDdata(s,e) {
 
     var data = JSON.parse(localStorage.getItem('ytd'));
     console.log(data);
 
+    if (s == undefined) {
+        s = 11;
+        e = 43;
+    }
 
     var myTab = document.getElementById('mytable');
+
+    var i = 6;
+    // LOOP THROUGH EACH ROW OF THE TABLE.
+    //for (row = 11; row < 43; row++) {
+    for (row = s; row < e; row++) {
+
+        var element = myTab.rows.item(row).cells[1];
+        var editablediv = element.children[0];
+        if (editablediv != undefined) {
+            editablediv.innerText = data[i];
+
+        } else {
+            element.innerText = data[i];
+        }
+        i++;
+    }
+
     //var values = new Array();
     var teacherval = document.getElementById('teacherval');
     var periodval = document.getElementById('periodval');
@@ -67,67 +88,66 @@ function LoadYTDdata() {
     var roomval = document.getElementById('roomval');
 
 
-    teacherval.innerText = data[0];
-    periodval.innerText = data[1];
-    courseval.innerText = data[2];
-    startyear.innerText = data[3];
-    endyear.innerText = data[4];
-    roomval.innerText = data[5];
+    settext(teacherval, data[0]);// teacherval.children[0].innerText = data[0];
+    settext(periodval, data[1]);//periodval.children[0].innerText = data[1];
+    settext(courseval, data[2]);//courseval.children[0].innerText = data[2];
+    settext(startyear, data[3]);//startyear.children[0].innerText = data[3];
+    settext(endyear, data[4]);//endyear.children[0].innerText = data[4];
+    settext(roomval, data[5]);//roomval.children[0].innerText = data[5];
 
-    var i = 6;
-    // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 11; row < 43; row++) {
+   
+}
 
-        var element = myTab.rows.item(row).cells[1];
-        var editablediv = element.children[0];
-        if(editablediv != undefined){
-            editablediv.innerText = data[i];
-
-            }
-        i++;
+function settext(ctrl,txt) {
+    if (ctrl.children.length == 0) {
+        ctrl.innerText = txt;
+    } else {
+        ctrl.children[0].innerText = txt;
     }
 }
 
 function Loaddata() {
 
-    LoadYTDdata();
-
     var month = document.getElementById('monthval').innerText;
     var data = JSON.parse(localStorage.getItem(month));
     console.log(data);
 
+    try{
+        var myTab = document.getElementById('mytable');
+        //var values = new Array();
+        var i = 0;
+        // LOOP THROUGH EACH ROW OF THE TABLE.
+        for (row = 7; row < 38; row++) {
+            for (c = 0; c < 36; c++) {   // EACH CELL IN A ROW.
 
-    var myTab = document.getElementById('mytable');
-    //var values = new Array();
-    var i = 0;
-    // LOOP THROUGH EACH ROW OF THE TABLE.
-    for (row = 7; row < 38; row++) {
-        for (c = 0; c < 36; c++) {   // EACH CELL IN A ROW.
-
-            var element = myTab.rows.item(row).cells[c];
-            var chkbox = element.children[0];
-            var span = element.children[1];
-            if (chkbox == undefined || chkbox.type != 'checkbox') {
-                span = element.children[0];
-                if (span == undefined) {
-                    if (c == 34  || c==33) {
-                        element.innerText = data[i];
+                var element = myTab.rows.item(row).cells[c];
+                var chkbox = element.children[0];
+                var span = element.children[1];
+                if (chkbox == undefined || chkbox.type != 'checkbox') {
+                    span = element.children[0];
+                    if (span == undefined) {
+                        if (c == 34  || c==33) {
+                            element.innerText = data[i];
+                        }
+                    } else {
+                        span.innerText = data[i];
                     }
-                } else {
-                    span.innerText = data[i];
                 }
-            }
 
-            if (data[i].trim() == "P") {
-                chkbox.checked = true;
-                span.innerText = "P";
+                if (data[i].trim() == "P") {
+                    chkbox.checked = true;
+                    span.innerText = "P";
+                }
+                // if (element.childNodes[0].getAttribute('type') == 'text') {
+                console.log(data[i]);
+                i++;
+                //}
             }
-            // if (element.childNodes[0].getAttribute('type') == 'text') {
-            console.log(data[i]);
-            i++;
-            //}
         }
+    }catch(e){
+
     }
+    LoadYTDdata(7,39);
 }
 
 function updatecount(checkboxElem) {
@@ -163,5 +183,19 @@ function updatecount(checkboxElem) {
     }
     //$(checkboxElem).closest('tr').find('td:eq(4)').html(count);
     checkboxElem.parentElement.parentElement.children[34].innerText = count;
-    checkboxElem.parentElement.parentElement.children[33].innerText = validDayaCount-count;
+    checkboxElem.parentElement.parentElement.children[33].innerText = validDayaCount - count;
+
+
+    var myTab = document.getElementById('mytable');
+    //var values = new Array();
+    var presentcount=0;
+    var absentcount=0;
+    for (var j = 7; j < 36; j++) {
+        var absentval = myTab.rows.item(j).cells[33].innerText;
+        var presentval = myTab.rows.item(j).cells[34].innerText;
+        presentcount += parseInt(presentval);
+        absentcount += parseInt(absentval);
+    }
+    myTab.rows.item(38).cells[33].innerText = absentcount;
+    myTab.rows.item(38).cells[34].innerText = presentcount;
 }
