@@ -32,6 +32,7 @@ function submitYTD() {
 function submit() {
     var myTab = document.getElementById('mytable');
     var values = new Array();
+    var presentvalues = new Array();
     var monthctrl = document.getElementById('monthval');
     var month = monthctrl.innerText;
     // LOOP THROUGH EACH ROW OF THE TABLE.
@@ -43,11 +44,27 @@ function submit() {
             values.push(element.innerText);
             //}
         }
+        var studentname = myTab.rows.item(row).cells[1].innerText;
+        var presentcount = myTab.rows.item(row).cells[34].innerText;
+        var absentcount = myTab.rows.item(row).cells[33].innerText;
+        presentvalues.push(presentcount);
+        presentvalues.push(absentcount);
+        if (studentname.trim() != '') {
+            localStorage.setItem(month + '-' + studentname, JSON.stringify(presentvalues));
+        }
     }
     console.log(values);
     localStorage.setItem(month, JSON.stringify(values));
     var data = JSON.parse(localStorage.getItem(month));
     console.log(data);
+
+    //save month's present total
+    //var presentvalues = new Array();
+    //presentvalues.push(myTab.rows.item(38).cells[19].innerText);
+    //presentvalues.push(myTab.rows.item(38).cells[20].innerText);
+
+    //localStorage.setItem(month + '-attendance' , JSON.stringify(presentvalues));
+
 }
 
 
@@ -55,10 +72,14 @@ function LoadYTDdata(s,e) {
 
     var data = JSON.parse(localStorage.getItem('ytd'));
     console.log(data);
-
+    var ytdsheet = false;
     if (s == undefined) {
         s = 11;
         e = 43;
+        
+    }
+    if (s == 11) {
+        ytdsheet = true;
     }
 
     var myTab = document.getElementById('mytable');
@@ -68,14 +89,35 @@ function LoadYTDdata(s,e) {
     //for (row = 11; row < 43; row++) {
     for (row = s; row < e; row++) {
 
-        var element = myTab.rows.item(row).cells[1];
-        var editablediv = element.children[0];
+        var studenttd = myTab.rows.item(row).cells[1];
+        var editablediv = studenttd.children[0];
         if (editablediv != undefined) {
             editablediv.innerText = data[i];
 
         } else {
-            element.innerText = data[i];
+            studenttd.innerText = data[i];
         }
+
+        if (ytdsheet == true) {
+            myTab.rows.item(row).cells[3].innerText = '';
+            myTab.rows.item(row).cells[2].innerText = '';
+            updateTotals(myTab, row, 3, 'April-' + data[i]);
+            updateTotals(myTab, row, 3, 'May-' + data[i]);
+            updateTotals(myTab, row, 3, 'June-' + data[i]);
+            updateTotals(myTab, row, 3, 'July-' + data[i]);
+            updateTotals(myTab, row, 3, 'August-' + data[i]);
+            updateTotals(myTab, row, 3, 'September-' + data[i]);
+            updateTotals(myTab, row, 3, 'October-' + data[i]);
+            updateTotals(myTab, row, 3, 'November-' + data[i]);
+            updateTotals(myTab, row, 3, 'December-' + data[i]);
+            updateTotals(myTab, row, 3, 'January-' + data[i]);
+            updateTotals(myTab, row, 3, 'February-' + data[i]);
+            updateTotals(myTab, row, 3, 'March-' + data[i]);
+
+        }
+
+
+
         i++;
     }
 
@@ -95,14 +137,50 @@ function LoadYTDdata(s,e) {
     settext(endyear, data[4]);//endyear.children[0].innerText = data[4];
     settext(roomval, data[5]);//roomval.children[0].innerText = data[5];
 
-   
+    //myTab.rows.item(s).cells[3].innerText = JSON.parse(localStorage.getItem('April-attendance'));
+    //JSON.parse(localStorage.getItem('ytd'))
+    
 }
 
-function settext(ctrl,txt) {
-    if (ctrl.children.length == 0) {
-        ctrl.innerText = txt;
-    } else {
-        ctrl.children[0].innerText = txt;
+function updateTotals(tab,r, c, key) {
+    try {
+        var data = JSON.parse(localStorage.getItem(key));
+        var p;
+        var a;
+        if (data == undefined) {
+            p = 0;
+            a = 0;
+        } else {
+            p = getnum(data[0]);
+            a = getnum(data[1]);
+        }
+        var initialP = getnum(tab.rows.item(r).cells[c].innerText);
+        var initialA = getnum(tab.rows.item(r).cells[c - 1].innerText);
+        tab.rows.item(r).cells[c].innerText = p+initialP;
+        tab.rows.item(r).cells[c-1].innerText = a+initialA;
+    } catch (ex) {
+
+    }
+}
+
+function getnum(x) {
+    try {
+        if (isNaN(x)==true || x.trim() =="") {
+            x = 0;
+        }
+        return parseInt(x);
+    } catch (ex) {
+        return 0;
+    }
+}
+
+function settext(ctrl, txt) {
+    if (ctrl != undefined) {
+        if (ctrl.children.length == 0) {
+            ctrl.innerText = txt;
+        } else {
+            ctrl.children[0].innerText = txt;
+        }
     }
 }
 
@@ -196,6 +274,6 @@ function updatecount(checkboxElem) {
         presentcount += parseInt(presentval);
         absentcount += parseInt(absentval);
     }
-    myTab.rows.item(38).cells[33].innerText = absentcount;
-    myTab.rows.item(38).cells[34].innerText = presentcount;
+    myTab.rows.item(38).cells[19].innerText = validDayaCount*30 - presentcount;
+    myTab.rows.item(38).cells[20].innerText = presentcount;
 }
