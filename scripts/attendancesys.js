@@ -32,7 +32,7 @@ function submitYTD() {
 function submit() {
     var myTab = document.getElementById('mytable');
     var values = new Array();
-    var presentvalues = new Array();
+    
     var monthctrl = document.getElementById('monthval');
     var month = monthctrl.innerText;
     // LOOP THROUGH EACH ROW OF THE TABLE.
@@ -44,6 +44,7 @@ function submit() {
             values.push(element.innerText);
             //}
         }
+        var presentvalues = new Array();
         var studentname = myTab.rows.item(row).cells[1].innerText;
         var presentcount = myTab.rows.item(row).cells[34].innerText;
         var absentcount = myTab.rows.item(row).cells[33].innerText;
